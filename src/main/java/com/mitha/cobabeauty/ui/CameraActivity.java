@@ -18,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -98,6 +99,7 @@ public class CameraActivity extends AppCompatActivity {
     private StickerFragment mStickerFragment;
     private BeautyFragment mBeautyFragment;
     private BulgeFragment mBulgeFragment;
+    private EfekFragment mEfekFragment;
 
     private ContentsViewModel mContentsViewModel;
     private BeautyItemData mBeautyItemData;
@@ -143,6 +145,7 @@ public class CameraActivity extends AppCompatActivity {
         mStickerFragment = new StickerFragment();
         mBeautyFragment = new BeautyFragment();
         mBulgeFragment = new BulgeFragment();
+        mEfekFragment = new EfekFragment();
 
         mItemDownloadPath = getFilesDir().getAbsolutePath();
         mMediaPath = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DCIM + "/ARGEAR";
@@ -225,9 +228,10 @@ public class CameraActivity extends AppCompatActivity {
                 || (mStickerFragment != null && mStickerFragment.isAdded())
                 || (mBeautyFragment != null && mBeautyFragment.isAdded())
                 || (mBulgeFragment != null && mBulgeFragment.isAdded())
+                || (mEfekFragment != null && mEfekFragment.isAdded())
         ) {
             mDataBinding.functionsLayout.setVisibility(View.VISIBLE);
-            mDataBinding.shutterLayout.setVisibility(View.VISIBLE);
+            //mDataBinding.shutterLayout.setVisibility(View.VISIBLE);
         }
 
         if (mBeautyFragment != null && mBeautyFragment.isAdded()) {
@@ -293,48 +297,48 @@ public class CameraActivity extends AppCompatActivity {
 
     public void ratioButton(){
         Button ratio = findViewById(R.id.ratio_button);
-        if (ratio.isPressed()){
+
+        int width= (int)getResources().getDimension(R.dimen.btnwidth);
+        int heigthfull= (int)getResources().getDimension(R.dimen.btnfull);
+        int heigth43= (int)getResources().getDimension(R.dimen.btn43);
+        int heigth11= (int)getResources().getDimension(R.dimen.btn11);
+
+        if (ratio.getTag().equals("ganti")) {
             mScreenRatio = ARGFrame.Ratio.RATIO_FULL;
             setGLViewSize(mCamera.getPreviewSize());
             initRatioUI();
-        }else if (ratio.isPressed()){
+            ratio.setTag("update");
+            ratio.setLayoutParams(new LinearLayout.LayoutParams(width,heigth43));
+        }else if (ratio.getTag().equals("update")) {
             mScreenRatio = ARGFrame.Ratio.RATIO_4_3;
             setGLViewSize(mCamera.getPreviewSize());
             initRatioUI();
-        }
-        else {
+            ratio.setLayoutParams(new LinearLayout.LayoutParams(width,heigth11));
+            ratio.setTag("ratio");
+        }else if (ratio.getTag().equals("ratio")){
+            ratio.setHeight(24);
             mScreenRatio = ARGFrame.Ratio.RATIO_1_1;
             setGLViewSize(mCamera.getPreviewSize());
             initRatioUI();
+            ratio.setLayoutParams(new LinearLayout.LayoutParams(width,heigthfull));
+            ratio.setTag("ganti");
         }
     }
-
 
     public void onClickButtons(View v) {
         switch (v.getId()) {
             case R.id.more_button: {
-                if (mDataBinding.moreLayout.getRoot().getVisibility() == View.GONE) {
-                    mDataBinding.moreLayout.getRoot().setVisibility(View.VISIBLE);
-                } else {
-                    mDataBinding.moreLayout.getRoot().setVisibility(View.GONE);
-                }
-                break;
+                finish();
+//                if (mDataBinding.moreLayout.getRoot().getVisibility() == View.GONE) {
+//                    mDataBinding.moreLayout.getRoot().setVisibility(View.VISIBLE);
+//                } else {
+//                    mDataBinding.moreLayout.getRoot().setVisibility(View.GONE);
+//                }
+//                break;
             }
-            case R.id.ratio_full_radiobutton:
-                mScreenRatio = ARGFrame.Ratio.RATIO_FULL;
-                setGLViewSize(mCamera.getPreviewSize());
-                initRatioUI();
-                break;
-            case R.id.ratio43_radiobugtton:
-                mScreenRatio = ARGFrame.Ratio.RATIO_4_3;
-                setGLViewSize(mCamera.getPreviewSize());
-                initRatioUI();
-                break;
+
             case R.id.ratio_button:
                 ratioButton();
-//                mScreenRatio = ARGFrame.Ratio.RATIO_1_1;
-//                setGLViewSize(mCamera.getPreviewSize());
-//                initRatioUI();
                 break;
             case R.id.debug_landmark_checkbox:
             case R.id.debug_rect_checkbox:
@@ -344,35 +348,20 @@ public class CameraActivity extends AppCompatActivity {
             case R.id.sticker_button:
                 showStickers();
                 break;
-            case R.id.filter_button:
-                showFilters();
+            case R.id.efek_button:
+               //showStickers();
+               showEfek();
                 break;
 
-            case R.id.shutter_button: {
-                if (mDataBinding.shutterPhotoButton.getViewSelected()) {
-                    mIsShooting = true;
-                    mDataBinding.shutterButton.setChecked(false);
+            case R.id.shutter_button :{
+                if (!mDataBinding.shutterButton.isChecked()){
+                    stopRecording();
                 } else {
-                    if (!mDataBinding.shutterButton.isChecked()) {
-                        stopRecording();
-                    } else {
-                        startRecording();
-                    }
+                    startRecording();
                 }
-                break;
+
             }
-            case R.id.shutter_photo_button: {
-                mDataBinding.shutterPhotoButton.setViewSelected(true);
-                mDataBinding.shutterVideoButton.setViewSelected(false);
-                mDataBinding.shutterButton.setBackgroundResource(R.drawable.btn_shutter_photo_blue);
-                break;
-            }
-            case R.id.shutter_video_button: {
-                mDataBinding.shutterPhotoButton.setViewSelected(false);
-                mDataBinding.shutterVideoButton.setViewSelected(true);
-                mDataBinding.shutterButton.setBackgroundResource(R.drawable.btn_shutter_video_blue);
-                break;
-            }
+
             case R.id.camera_switch_button:
                 mARGSession.pause();
                 mCamera.changeCameraFacing();
@@ -380,6 +369,7 @@ public class CameraActivity extends AppCompatActivity {
                 break;
         }
     }
+
 
     private void setGLViewSize(int [] cameraPreviewSize) {
         int previewWidth = cameraPreviewSize[1];
@@ -473,7 +463,7 @@ public class CameraActivity extends AppCompatActivity {
         showSlot(mStickerFragment);
         clearBulge();
         mDataBinding.functionsLayout.setVisibility(View.GONE);
-        mDataBinding.shutterLayout.setVisibility(View.GONE);
+       // mDataBinding.shutterLayout.setVisibility(View.GONE);
         mDataBinding.efectLayout.setVisibility(View.GONE);
         mDataBinding.galleryLayout.setVisibility(View.GONE);
     }
@@ -481,14 +471,23 @@ public class CameraActivity extends AppCompatActivity {
     private void showFilters(){
         showSlot(mFilterFragment);
         mDataBinding.functionsLayout.setVisibility(View.GONE);
-        mDataBinding.shutterLayout.setVisibility(View.GONE);
+        //mDataBinding.shutterLayout.setVisibility(View.GONE);
         mDataBinding.efectLayout.setVisibility(View.GONE);
         mDataBinding.galleryLayout.setVisibility(View.GONE);
     }
 
+    private void showEfek(){
+        showSlot(mEfekFragment);
+        mDataBinding.functionsLayout.setVisibility(View.GONE);
+        //mDataBinding.shutterLayout.setVisibility(View.GONE);
+        mDataBinding.efectLayout.setVisibility(View.GONE);
+        mDataBinding.galleryLayout.setVisibility(View.GONE);
+    }
+
+
     private void showBeauty() {
         mDataBinding.functionsLayout.setVisibility(View.GONE);
-        mDataBinding.shutterLayout.setVisibility(View.GONE);
+       // mDataBinding.shutterLayout.setVisibility(View.GONE);
 
         clearStickers();
         clearBulge();
@@ -510,7 +509,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private void showBulge() {
         mDataBinding.functionsLayout.setVisibility(View.GONE);
-        mDataBinding.shutterLayout.setVisibility(View.GONE);
+       // mDataBinding.shutterLayout.setVisibility(View.GONE);
 
         clearStickers();
 
@@ -730,11 +729,11 @@ public class CameraActivity extends AppCompatActivity {
 
                 Toast.makeText(CameraActivity.this, "The file has been saved to your Gallery.", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(CameraActivity.this, PlayerActivity.class);
-                Bundle b = new Bundle();
-                b.putString(PlayerActivity.INTENT_URI, mVideoFilePath);
-                intent.putExtras(b);
-                startActivity(intent);
+//                Intent intent = new Intent(CameraActivity.this, PlayerActivity.class);
+//                Bundle b = new Bundle();
+//                b.putString(PlayerActivity.INTENT_URI, mVideoFilePath);
+//                intent.putExtras(b);
+//                startActivity(intent);
 
                 mDataBinding.shutterButton.setEnabled(true);
             }

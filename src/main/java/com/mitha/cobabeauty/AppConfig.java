@@ -6,9 +6,9 @@ import androidx.databinding.library.BuildConfig;
 public class AppConfig {
 
     public static final String API_URL = "https://apis.argear.io";
-    public static final String API_KEY = "fe49fe8fe8c757e5a4f8d48d";
-    public static final String SECRET_KEY = "5c3b1c9540b4d76134596fd3e9acb2a1aef55245a9980fdd26064ea6b8c5c48c";
-    public static final String AUTH_KEY = "U2FsdGVkX1+k8JjhmPLPROT1F7wdSAiW08DhJymQnqpYdU/VaaSR5BwYgLzfiRsS2LXFf1YXCjfryqzIo4/M0g==";
+    public static final String API_KEY = "c51791b63f3e911ead09eb03";
+    public static final String SECRET_KEY = "d6c4a2e9a6f12549f38be6439444f775feecb44b2e0f1486ec29d329a7531bd4";
+    public static final String AUTH_KEY = "U2FsdGVkX1+//ObqY8YkAybGHM1+n+tN5J8WjWdmM0Ii929CizUO6z2/U2lX6RckQOyCpMqsJMYbJDSjjlnBpg==";
 
     // preference
     public static final String USER_PREF_NAME = BuildConfig.APPLICATION_ID + ".Preference";

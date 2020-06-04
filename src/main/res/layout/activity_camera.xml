@@ -56,15 +56,16 @@
            <LinearLayout
                android:layout_weight="1"
                android:layout_width="wrap_content"
-               android:layout_height="52dp"
+               android:layout_height="match_parent"
                android:gravity="center"
                android:orientation="vertical">
 
                <Button
                    android:id="@+id/ratio_button"
-                   android:layout_width="25dp"
-                   android:layout_height="25dp"
+                   android:layout_width="24dp"
+                   android:layout_height="28dp"
                    android:layout_marginTop="5dp"
+                   android:tag="ganti"
                    android:background="@drawable/ic_ratio"
                    android:onClick="onClickButtons" />
            </LinearLayout>
@@ -97,37 +98,37 @@
             android:layout_centerInParent="true"
             android:visibility="gone"/>
 
-        <LinearLayout
-            android:id="@+id/shutter_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:paddingStart="43dp"
-            android:layout_marginBottom="113.5dp">
+<!--        <LinearLayout-->
+<!--            android:id="@+id/shutter_layout"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:paddingStart="43dp"-->
+<!--            android:layout_marginBottom="113.5dp">-->
 
-            <com.mitha.cobabeauty.ui.widget.UnderLineView
-                android:id="@+id/shutter_photo_button"
-                android:layout_width="43dp"
-                android:layout_height="21.5dp"
-                android:layout_marginStart="11dp"
-                android:tag="0"
-                android:onClick="onClickButtons"
-                app:text="Photo"
-                app:select="true"/>
+<!--            <com.mitha.cobabeauty.ui.widget.UnderLineView-->
+<!--                android:id="@+id/shutter_photo_button"-->
+<!--                android:layout_width="43dp"-->
+<!--                android:layout_height="21.5dp"-->
+<!--                android:layout_marginStart="11dp"-->
+<!--                android:tag="0"-->
+<!--                android:onClick="onClickButtons"-->
+<!--                app:text="Photo"-->
+<!--                app:select="true"/>-->
 
-            <com.mitha.cobabeauty.ui.widget.UnderLineView
-                android:id="@+id/shutter_video_button"
-                android:layout_width="43dp"
-                android:layout_height="21.5dp"
-                android:layout_marginStart="11dp"
-                android:tag="1"
-                android:onClick="onClickButtons"
-                app:text="Video"
-                app:select="false"/>
+<!--            <com.mitha.cobabeauty.ui.widget.UnderLineView-->
+<!--                android:id="@+id/shutter_video_button"-->
+<!--                android:layout_width="43dp"-->
+<!--                android:layout_height="21.5dp"-->
+<!--                android:layout_marginStart="11dp"-->
+<!--                android:tag="1"-->
+<!--                android:onClick="onClickButtons"-->
+<!--                app:text="Video"-->
+<!--                app:select="false"/>-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
         <!--functions layout-->
         <LinearLayout
@@ -147,7 +148,7 @@
                 android:textOff=""
                 android:checked="false"
                 android:onClick="onClickButtons"
-                android:background="@drawable/btn_shutter_photo_blue"/>
+                android:background="@drawable/btn_shutter_video_blue"/>
         </LinearLayout>
 
         <LinearLayout
@@ -182,7 +183,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/filter_button"
+                android:id="@+id/efek_button"
                 android:layout_width="52dp"
                 android:layout_height="55dp"
                 android:background="@drawable/ic_effect_icon"

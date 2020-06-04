@@ -45,6 +45,7 @@ public class StickerFragment
 
         rootView.findViewById(R.id.close_sticker_button).setOnClickListener(this);
         rootView.findViewById(R.id.clear_sticker_button).setOnClickListener(this);
+        rootView.findViewById(R.id.filter_button).setOnClickListener(this);
 
         // init category_sticker list
         RecyclerView recyclerViewStickerCategory = rootView.findViewById(R.id.sticker_category_recyclerview);
@@ -107,6 +108,9 @@ public class StickerFragment
             case R.id.clear_sticker_button: {
                 ((CameraActivity)getActivity()).clearStickers();
                 break;
+            }
+            case R.id.filter_button :{
+
             }
         }
     }
