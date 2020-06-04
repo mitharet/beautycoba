@@ -346,11 +346,12 @@ public class CameraActivity extends AppCompatActivity {
                         mDataBinding.moreLayout.debugRectCheckbox.isChecked());
                 break;
             case R.id.sticker_button:
-                showStickers();
+                //showStickers();
+                showEfek();
                 break;
             case R.id.efek_button:
-               //showStickers();
-               showEfek();
+               showStickers();
+               //showEfek();
                 break;
 
             case R.id.shutter_button :{
