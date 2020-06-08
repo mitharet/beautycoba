@@ -16,6 +16,8 @@ import com.mitha.cobabeauty.model.ItemModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class StickerListAdapter extends RecyclerView.Adapter<StickerListAdapter.ViewHolder> {
 
@@ -74,7 +76,7 @@ public class StickerListAdapter extends RecyclerView.Adapter<StickerListAdapter.
 	}
 
 	public class StickerViewHolder extends ViewHolder implements View.OnClickListener {
-		ImageView mImageViewItemThumbnail = null;
+		CircleImageView mImageViewItemThumbnail = null;
 
 		ItemModel mItem;
 		int position;

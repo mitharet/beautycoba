@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -98,38 +99,6 @@
             android:layout_centerInParent="true"
             android:visibility="gone"/>
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/shutter_layout"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:paddingStart="43dp"-->
-<!--            android:layout_marginBottom="113.5dp">-->
-
-<!--            <com.mitha.cobabeauty.ui.widget.UnderLineView-->
-<!--                android:id="@+id/shutter_photo_button"-->
-<!--                android:layout_width="43dp"-->
-<!--                android:layout_height="21.5dp"-->
-<!--                android:layout_marginStart="11dp"-->
-<!--                android:tag="0"-->
-<!--                android:onClick="onClickButtons"-->
-<!--                app:text="Photo"-->
-<!--                app:select="true"/>-->
-
-<!--            <com.mitha.cobabeauty.ui.widget.UnderLineView-->
-<!--                android:id="@+id/shutter_video_button"-->
-<!--                android:layout_width="43dp"-->
-<!--                android:layout_height="21.5dp"-->
-<!--                android:layout_marginStart="11dp"-->
-<!--                android:tag="1"-->
-<!--                android:onClick="onClickButtons"-->
-<!--                app:text="Video"-->
-<!--                app:select="false"/>-->
-
-<!--        </LinearLayout>-->
-
         <!--functions layout-->
         <LinearLayout
             android:id="@+id/functions_layout"
@@ -138,7 +107,8 @@
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="29dp">
+            android:layout_marginBottom="33dp">
+
             <ToggleButton
                 android:id="@+id/shutter_button"
                 android:layout_width="62dp"
@@ -151,24 +121,32 @@
                 android:background="@drawable/btn_shutter_video_blue"/>
         </LinearLayout>
 
+
         <LinearLayout
             android:id="@+id/gallery_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="50dp"
             android:layout_toLeftOf="@+id/functions_layout"
-            android:layout_marginBottom="29dp">
+            android:layout_marginBottom="25dp">
 
             <Button
-                android:id="@+id/sticker_button"
+                android:id="@+id/gallery_button"
                 android:layout_width="52dp"
                 android:layout_height="55dp"
-                android:layout_marginStart="23.5dp"
                 android:onClick="onClickButtons"
-                android:background="@drawable/sticker_btn_default"/>
+                android:layout_gravity="center"
+                android:background="@drawable/ic_gallery"/>
+            <TextView
+                android:id="@+id/tvGallery"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gallery"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 
@@ -177,10 +155,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="29dp"
-            android:layout_marginLeft="50dp"
-            android:layout_toRightOf="@id/functions_layout"
-            android:orientation="horizontal">
+            android:layout_marginBottom="25dp"
+            android:layout_marginStart="50dp"
+            android:layout_toEndOf="@id/functions_layout"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/efek_button"
@@ -189,7 +167,158 @@
                 android:background="@drawable/ic_effect_icon"
                 android:onClick="onClickButtons" />
 
+            <TextView
+                android:id="@+id/tvEfek"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Effect"
+                android:textColor="@color/white"/>
         </LinearLayout>
+
+        <!-- Item Effects -->
+        <HorizontalScrollView
+            android:id="@+id/layoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:visibility="gone"
+            android:layout_marginLeft="15dp"
+            android:layout_above="@+id/efect_layout"
+            android:layout_marginRight="15dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingBottom="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/filter_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/filter_efek"
+                        android:layout_width="52dp"
+                        android:layout_height="55dp"
+                        android:background="@drawable/ic_filter_icon"
+                        android:onClick="onClickButtons" />
+
+                    <TextView
+                        android:id="@+id/tvFilter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="Filter"
+                        android:textColor="@color/white"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/stiker_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/stiker_efek"
+                        android:layout_width="52dp"
+                        android:layout_height="55dp"
+                        android:background="@drawable/ic_stickers_icon"
+                        android:onClick="onClickButtons" />
+
+                    <TextView
+                        android:id="@+id/tvStiker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="Sticker"
+                        android:textColor="@color/white"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/beauty_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/beauty_efek"
+                        android:layout_width="52dp"
+                        android:layout_height="55dp"
+                        android:background="@drawable/ic_beautify_icon"
+                        android:onClick="onClickButtons" />
+
+                    <TextView
+                        android:id="@+id/tvBeauty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="Beauty"
+                        android:textColor="@color/white"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bulge_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/bulge_efek"
+                        android:layout_width="52dp"
+                        android:layout_height="55dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ic_bulge_icon"
+                        android:onClick="onClickButtons" />
+
+                    <TextView
+                        android:id="@+id/tvBulge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Bulge"
+                        android:textColor="@color/white"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/reset_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/reset_efek"
+                        android:layout_width="52dp"
+                        android:layout_height="55dp"
+                        android:background="@drawable/ic_reset_icon"
+                        android:onClick="onClickButtons" />
+
+                    <TextView
+                        android:id="@+id/tvReset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="Reset"
+                        android:textColor="@color/white"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
 
         <ProgressBar
             android:id="@+id/progressBar"

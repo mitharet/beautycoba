@@ -17,6 +17,8 @@ import com.mitha.cobabeauty.model.ItemModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class FilterListAdapter extends RecyclerView.Adapter<FilterListAdapter.ViewHolder> {
 
@@ -75,7 +77,7 @@ public class FilterListAdapter extends RecyclerView.Adapter<FilterListAdapter.Vi
 	}
 
 	public class ItemViewHolder extends ViewHolder implements View.OnClickListener {
-		ImageView mImageViewItemThumbnail = null;
+		CircleImageView mImageViewItemThumbnail = null;
 		TextView mTextViewTitle = null;
 
 		ItemModel mItem;
@@ -84,7 +86,7 @@ public class FilterListAdapter extends RecyclerView.Adapter<FilterListAdapter.Vi
 
 		ItemViewHolder(View v) {
 			super(v);
-			mImageViewItemThumbnail = (ImageView) v.findViewById(R.id.item_thumbnail_imageview);
+			mImageViewItemThumbnail = (CircleImageView) v.findViewById(R.id.item_thumbnail_imageview);
 			mTextViewTitle = (TextView) v.findViewById(R.id.title_textview);
 		}
 

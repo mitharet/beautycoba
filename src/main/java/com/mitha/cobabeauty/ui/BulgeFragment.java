@@ -27,7 +27,6 @@ public class BulgeFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_bulge, container, false);
 
         rootView.findViewById(R.id.close_bulge_button).setOnClickListener(this);
-        rootView.findViewById(R.id.clear_bulge_button).setOnClickListener(this);
         rootView.findViewById(R.id.bulge_fun1_button).setOnClickListener(this);
         rootView.findViewById(R.id.bulge_fun2_button).setOnClickListener(this);
         rootView.findViewById(R.id.bulge_fun3_button).setOnClickListener(this);
@@ -58,9 +57,6 @@ public class BulgeFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.close_bulge_button:
                 getActivity().onBackPressed();
-                break;
-            case R.id.clear_bulge_button:
-                ((CameraActivity)getActivity()).clearBulge();
                 break;
             case R.id.bulge_fun1_button :
                 ((CameraActivity)getActivity()).setBulgeFunType(1);

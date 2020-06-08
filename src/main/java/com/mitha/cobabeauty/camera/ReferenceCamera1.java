@@ -319,7 +319,6 @@ public class ReferenceCamera1 extends ReferenceCamera {
             throw new IOException("Could not find requested camera.");
         }
         Camera camera = Camera.open(requestedCameraId);
-
         SizePair sizePair = getFittedPreviewSize(camera, 0.75f);
 //        if(mCameraRatio == CAMERA_RATIO_4_3)
 //            sizePair = getFittedPreviewSize(camera, 0.75f);
@@ -495,8 +494,8 @@ public class ReferenceCamera1 extends ReferenceCamera {
         private Size picture;
 
         SizePair(
-                android.hardware.Camera.Size previewSize,
-                @Nullable android.hardware.Camera.Size pictureSize) {
+                Camera.Size previewSize,
+                @Nullable Camera.Size pictureSize) {
             preview = new Size(previewSize.width, previewSize.height);
             if (pictureSize != null) {
                 picture = new Size(pictureSize.width, pictureSize.height);
@@ -529,13 +528,13 @@ public class ReferenceCamera1 extends ReferenceCamera {
         List<Camera.Size> supportedPictureSizes =
                 parameters.getSupportedPictureSizes();
         List<SizePair> validPreviewSizes = new ArrayList<>();
-        for (android.hardware.Camera.Size previewSize : supportedPreviewSizes) {
+        for (Camera.Size previewSize : supportedPreviewSizes) {
             float previewAspectRatio = (float) previewSize.width / (float) previewSize.height;
 
             // By looping through the picture sizes in order, we favor the higher resolutions.
             // We choose the highest resolution in order to support taking the full resolution
             // picture later.
-            for (android.hardware.Camera.Size pictureSize : supportedPictureSizes) {
+            for (Camera.Size pictureSize : supportedPictureSizes) {
                 float pictureAspectRatio = (float) pictureSize.width / (float) pictureSize.height;
                 if (Math.abs(previewAspectRatio - pictureAspectRatio) < ASPECT_RATIO_TOLERANCE) {
                     validPreviewSizes.add(new SizePair(previewSize, pictureSize));
@@ -549,7 +548,7 @@ public class ReferenceCamera1 extends ReferenceCamera {
         // still account for it.
         if (validPreviewSizes.size() == 0) {
             Log.w(TAG, "No preview sizes have a corresponding same-aspect-ratio picture size");
-            for (android.hardware.Camera.Size previewSize : supportedPreviewSizes) {
+            for (Camera.Size previewSize : supportedPreviewSizes) {
                 // The null picture size will let us know that we shouldn't set a picture size.
                 validPreviewSizes.add(new SizePair(previewSize, null));
             }
@@ -626,7 +625,7 @@ public class ReferenceCamera1 extends ReferenceCamera {
 
         int angle;
         int displayAngle;
-        if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+        if (cameraInfo.facing == CameraInfo.CAMERA_FACING_FRONT) {
             angle = (cameraInfo.orientation + degrees) % 360;
             displayAngle = (360 - angle) % 360; // compensate for it being mirrored
         } else { // back-facing

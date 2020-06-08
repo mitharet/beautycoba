@@ -22,6 +22,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -32,6 +34,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.mitha.cobabeauty.AppConfig;
 import com.mitha.cobabeauty.R;
+import com.mitha.cobabeauty.activitys.CustomAlertBacksound;
+import com.mitha.cobabeauty.activitys.TrimmingActivity;
 import com.mitha.cobabeauty.api.ContentsResponse;
 import com.mitha.cobabeauty.camera.ReferenceCamera;
 import com.mitha.cobabeauty.camera.ReferenceCamera1;
@@ -59,6 +63,7 @@ import com.seerslab.argear.session.ARGSession;
 import com.seerslab.argear.session.config.ARGCameraConfig;
 import com.seerslab.argear.session.config.ARGConfig;
 import com.seerslab.argear.session.config.ARGInferenceConfig;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.util.EnumSet;
@@ -66,6 +71,9 @@ import java.util.Set;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import dha.code.sbilauncherlibrary.presenters.UploadImagePresenterImpl;
+import dha.code.sbilauncherlibrary.utilities.FileImageSelector;
 
 
 public class CameraActivity extends AppCompatActivity {
@@ -110,6 +118,9 @@ public class CameraActivity extends AppCompatActivity {
     private ARGSession mARGSession;
     private ARGMedia mARGMedia;
 
+    private FileImageSelector mImageSelector;
+    private static final int REQUEST_VIDEO_TRIMMER = 0x02;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,14 +164,61 @@ public class CameraActivity extends AppCompatActivity {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-
+        initImageSelector();
         initRatioUI();
+    }
+
+    /**
+     * Image selector
+     * */
+    private void initImageSelector() {
+        mImageSelector = FileImageSelector.create(CameraActivity.this, uri -> {
+            if (uri != null){
+                String dirctory = uri.getPath();
+                Uri mUri = Uri.parse("file://"+dirctory);
+                Intent intent = new Intent(CameraActivity.this, TrimmingActivity.class);
+                intent.putExtra("path", mUri);
+                startActivityForResult(intent, REQUEST_VIDEO_TRIMMER);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        if (requestCode == REQUEST_VIDEO_TRIMMER && resultCode == RESULT_OK) {
+            assert data != null;
+            if (data.getData() != null){
+                Uri trimmedUri = data.getData();
+                System.out.println(trimmedUri);
+
+                new CustomAlertBacksound(CameraActivity.this, "Backsound", "Tambahkan music ke video anda?", "Ya", "Tidak", new CustomAlertBacksound.CustomAlertOnResponse() {
+                    @Override
+                    public void onPositiveButton() {
+
+                    }
+
+                    @Override
+                    public void onNegativeButton() {
+                        Intent intent = new Intent(CameraActivity.this, PlayerActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString(PlayerActivity.INTENT_URI, trimmedUri.getPath());
+                        intent.putExtras(b);
+                        startActivity(intent);
+                    }
+                });
+
+            }
+        }else {
+            mImageSelector.onActivityResult(requestCode, resultCode, data);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         if (mARGSession == null) {
 
             if (!PermissionHelper.hasPermission(this)) {
@@ -239,7 +297,7 @@ public class CameraActivity extends AppCompatActivity {
         }
 
         closeefek();
-        
+
         super.onBackPressed();
     }
 
@@ -345,14 +403,6 @@ public class CameraActivity extends AppCompatActivity {
                 setDrawLandmark(mDataBinding.moreLayout.debugLandmarkCheckbox.isChecked(),
                         mDataBinding.moreLayout.debugRectCheckbox.isChecked());
                 break;
-            case R.id.sticker_button:
-                //showStickers();
-                showEfek();
-                break;
-            case R.id.efek_button:
-               showStickers();
-               //showEfek();
-                break;
 
             case R.id.shutter_button :{
                 if (!mDataBinding.shutterButton.isChecked()){
@@ -363,12 +413,46 @@ public class CameraActivity extends AppCompatActivity {
 
             }
 
+            case R.id.gallery_button:
+                mImageSelector.openGallery();
+                break;
+
+            case R.id.efek_button:
+                showEfek();
+                break;
+
             case R.id.camera_switch_button:
                 mARGSession.pause();
                 mCamera.changeCameraFacing();
                 mARGSession.resume();
                 break;
+
+            case R.id.stiker_efek:
+                showStickers();
+                break;
+
+            case R.id.filter_efek:
+                showFilters();
+                break;
+
+            case R.id.beauty_efek:
+                showBeauty();
+                break;
+
+            case R.id.bulge_efek:
+                showBulge();
+                break;
+
+            case R.id.reset_efek:
+                resetEffect();
+                break;
         }
+    }
+
+    private void resetEffect(){
+        clearBulge();
+        clearFilter();
+        clearStickers();
     }
 
 
@@ -464,9 +548,10 @@ public class CameraActivity extends AppCompatActivity {
         showSlot(mStickerFragment);
         clearBulge();
         mDataBinding.functionsLayout.setVisibility(View.GONE);
-       // mDataBinding.shutterLayout.setVisibility(View.GONE);
+     //mDataBinding.shutterLayout.setVisibility(View.GONE);
         mDataBinding.efectLayout.setVisibility(View.GONE);
         mDataBinding.galleryLayout.setVisibility(View.GONE);
+        mDataBinding.layoutButton.setVisibility(View.GONE);
     }
 
     private void showFilters(){
@@ -475,20 +560,25 @@ public class CameraActivity extends AppCompatActivity {
         //mDataBinding.shutterLayout.setVisibility(View.GONE);
         mDataBinding.efectLayout.setVisibility(View.GONE);
         mDataBinding.galleryLayout.setVisibility(View.GONE);
+        mDataBinding.efectLayout.setVisibility(View.GONE);
+        mDataBinding.layoutButton.setVisibility(View.GONE);
     }
 
     private void showEfek(){
-        showSlot(mEfekFragment);
-        mDataBinding.functionsLayout.setVisibility(View.GONE);
-        //mDataBinding.shutterLayout.setVisibility(View.GONE);
-        mDataBinding.efectLayout.setVisibility(View.GONE);
-        mDataBinding.galleryLayout.setVisibility(View.GONE);
+        if(mDataBinding.layoutButton.getVisibility() == View.VISIBLE){
+            mDataBinding.layoutButton.setVisibility(View.GONE);
+        }else{
+            mDataBinding.layoutButton.setVisibility(View.VISIBLE);
+        }
     }
 
 
     private void showBeauty() {
         mDataBinding.functionsLayout.setVisibility(View.GONE);
-       // mDataBinding.shutterLayout.setVisibility(View.GONE);
+        // mDataBinding.shutterLayout.setVisibility(View.GONE);
+        mDataBinding.efectLayout.setVisibility(View.GONE);
+        mDataBinding.galleryLayout.setVisibility(View.GONE);
+        mDataBinding.layoutButton.setVisibility(View.GONE);
 
         clearStickers();
         clearBulge();
@@ -510,10 +600,12 @@ public class CameraActivity extends AppCompatActivity {
 
     private void showBulge() {
         mDataBinding.functionsLayout.setVisibility(View.GONE);
-       // mDataBinding.shutterLayout.setVisibility(View.GONE);
+        // mDataBinding.shutterLayout.setVisibility(View.GONE);
+        mDataBinding.efectLayout.setVisibility(View.GONE);
+        mDataBinding.galleryLayout.setVisibility(View.GONE);
+        mDataBinding.layoutButton.setVisibility(View.GONE);
 
         clearStickers();
-
         showSlot(mBulgeFragment);
     }
 

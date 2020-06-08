@@ -9,4 +9,18 @@
   <dimen name="btn11">24dp</dimen>
   <dimen name="btnfull">35dp</dimen>
   <dimen name="btnwidth">24dp</dimen>
+
+  <!-- RASIO -->
+  <dimen name="rasio1w">295dp</dimen>
+  <dimen name="rasio1h">488dp</dimen>
+
+  <dimen name="rasio2w">344dp</dimen>
+  <dimen name="rasio2h">430dp</dimen>
+
+  <dimen name="rasio3w">344dp</dimen>
+  <dimen name="rasio3h">330dp</dimen>
+
+  <dimen name="rasio4w">344dp</dimen>
+  <dimen name="rasio4h">194dp</dimen>
+
 </resources>

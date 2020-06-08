@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#2d2d2d">
+
+    <include
+        android:id="@+id/custom_toolbar"
+        layout="@layout/custom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+        android:id="@+id/top_ratio_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/black"
+        android:visibility="invisible" />
+
+    <View
+        android:id="@+id/bottom_ratio_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/black"
+        android:visibility="invisible" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mConstraint"
+        android:tag="ganti"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/custom_toolbar">
+
+        <FrameLayout
+            android:id="@+id/videoViewWrapper"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="80dp"
+            android:tag="ganti"
+            android:background="#000000"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:ignore="MissingConstraints">
+
+            <!--        <VideoView-->
+            <!--            android:id="@+id/videoView"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_gravity="center" />-->
+
+            <com.crust87.videocropview.VideoCropView
+                android:id="@+id/videoView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:ratio_height="1"
+                app:ratio_width="1" />
+
+            <ImageView
+                android:id="@+id/playBtn"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_play_arrow"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/trimDurAndSizeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="0:00,~0"
+            android:visibility="gone"
+            android:textColor="#FFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/videoViewWrapper" />
+
+        <TextView
+            android:id="@+id/trimDurRangeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            android:text="0:00 - 1:00"
+            android:textColor="#FFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/videoViewWrapper" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/trimVideoLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_above="@+id/linearLayout">
+
+            <org.telegram.messenger.CustomVideoTimelinePlayView
+                android:id="@+id/timelineView"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_frame"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+
+            <ImageView
+                android:id="@+id/trimVideo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:src="@drawable/ic_trim" />
+
+            <ImageView
+                android:id="@+id/saveBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:src="@drawable/ic_editor_item" />
+
+            <ImageView
+                android:id="@+id/efekBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:src="@drawable/ic_effect" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

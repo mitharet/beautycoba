@@ -76,10 +76,10 @@
 
     <Button
         android:id="@+id/beauty_close_button"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_above="@id/beauty_layout_container"
-        android:background="@drawable/close_button_default" />
+        android:background="@drawable/ic_delete_icon" />
 
 </RelativeLayout>
